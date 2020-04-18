@@ -1,0 +1,10 @@
+flask
+flask_cors
+flask_jwt_simple
+flask_restful
+flask_sqlalchemy
+python-dotenv
+requests
+Flask-Script
+pyjwt
+pytest
