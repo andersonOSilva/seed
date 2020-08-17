@@ -1,19 +1,28 @@
 from django.db import models
 
+from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import PermissionsMixin
+from django.contrib.auth.models import BaseUserManager
+
+from django.core import validators
+
+from django.utils import timezone
+
+import re
 import crypt
 
 
-class User(models.Model):
+class User(AbstractBaseUser, PermissionsMixin):
     """
     Model de usuários.
     """
-    class Meta:
-
-        db_table = 'user'
-
     username = models.CharField(max_length=200, null=True)
+    password = models.CharField(max_length=400)
     email = models.CharField(max_length=200, unique=True)
-    password = models.CharField(max_length=200)
+    date_joined = models.DateTimeField(default=timezone.now)
+
+    USERNAME_FIELD = 'email'
+    objects = BaseUserManager()
 
     def check_password(self, password):
         if self.password == crypt.crypt(password,"$6$salt$"):
@@ -23,6 +32,6 @@ class User(models.Model):
     def save(self, *args, **kwargs):
         if not self.username:
             self.username = self.email
-        # codifica password
+        # criptografa password
         self.password = crypt.crypt(self.password,"$6$salt$")
         super(User, self).save(*args, **kwargs)
