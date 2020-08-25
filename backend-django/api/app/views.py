@@ -3,11 +3,8 @@ from django.http import Http404
 
 from .serializer import UserSerializer
 from .serializer import UserListSerializer
-from .serializer import NaverSerializer
-from .serializer import NaverListSerializer
 
 from .models import User
-from .models import Naver
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
