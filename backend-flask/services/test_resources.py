@@ -9,17 +9,19 @@ def test_post_user():
     response = requests.post(
         "http://localhost:5000/api/user",
         data={
-            "id":666,
+            "id": 666,
             "first_name": "teste",
             "last_name": "teste",
             "email": "jdfsklj@nxncx",
             "password": "sjdfjljslfdsj"
-            })
+        })
     assert response.status_code == 201
+
 
 def test_get_user():
     response = requests.get("http://localhost:5000/api/user")
     assert response.status_code == 200
+
 
 def test_put_user():
     response = requests.put(
@@ -27,7 +29,7 @@ def test_put_user():
         data={
             "first_name": "testado",
             "email": "jdfsklj@nxncx"
-            })
+        })
     assert response.status_code == 204
 
 

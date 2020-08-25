@@ -1,10 +1,12 @@
 from flask_sqlalchemy import SQLAlchemy
 
-db :SQLAlchemy = SQLAlchemy()
+db: SQLAlchemy = SQLAlchemy()
+
 
 def create():
     global db
     db.create_all()
+
 
 def initialize_database(application):
     global db

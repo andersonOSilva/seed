@@ -30,10 +30,12 @@ initialize_database(application)
 # Starting RESTful endpoints
 initialize_resources(application)
 
+
 @application.before_request
 def startup():
     print("Initializing migration DB")
     Schema.migration()
+
 
 # Run application
 if __name__ == '__main__':

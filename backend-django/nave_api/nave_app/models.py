@@ -25,7 +25,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = BaseUserManager()
 
     def check_password(self, password):
-        if self.password == crypt.crypt(password,"$6$salt$"):
+        if self.password == crypt.crypt(password, "$6$salt$"):
             return True
         return False
 
@@ -33,5 +33,5 @@ class User(AbstractBaseUser, PermissionsMixin):
         if not self.username:
             self.username = self.email
         # criptografa password
-        self.password = crypt.crypt(self.password,"$6$salt$")
+        self.password = crypt.crypt(self.password, "$6$salt$")
         super(User, self).save(*args, **kwargs)

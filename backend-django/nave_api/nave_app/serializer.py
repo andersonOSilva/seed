@@ -13,7 +13,8 @@ class UserSerializer(serializers.ModelSerializer):
         fields = [
             'email',
             'password'
-            ]
+        ]
+
 
 class UserListSerializer(serializers.ModelSerializer):
     """
@@ -24,4 +25,4 @@ class UserListSerializer(serializers.ModelSerializer):
         depth = 1
         fields = [
             'email'
-            ]
+        ]

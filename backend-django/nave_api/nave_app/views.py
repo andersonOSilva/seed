@@ -18,6 +18,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.settings import api_settings
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
+
 class UserListView(APIView):
     """
     View que lista e cadastra usuário.
@@ -27,7 +28,8 @@ class UserListView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, format=None):
-        serializer = self.serializer_detail_class(User.objects.all(), many=True)
+        serializer = self.serializer_detail_class(
+            User.objects.all(), many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -37,6 +39,7 @@ class UserListView(APIView):
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserDetailView(APIView):
     """
@@ -84,28 +87,28 @@ class Login(APIView):
         email = request.data['email']
         if email is None:
             return Response({
-                                'error': 'Email not informed'
-                            }, status=status.HTTP_403_FORBIDDEN)
+                'error': 'Email not informed'
+            }, status=status.HTTP_403_FORBIDDEN)
 
         try:
             user = User.objects.get(email=email)
             if not user.check_password(request.data['password']):
                 return Response({
-                                    'error': 'Wrong email or password'
-                                }, status=status.HTTP_400_BAD_REQUEST)
+                    'error': 'Wrong email or password'
+                }, status=status.HTTP_400_BAD_REQUEST)
 
             jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
             jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
             payload = jwt_payload_handler(user)
             token = jwt_encode_handler(payload)
             return Response({
-                        "token": token,
-                        "user": UserListSerializer(
+                "token": token,
+                "user": UserListSerializer(
                             user, context={
                                 'request': request
-                                            }).data}, status=status.HTTP_200_OK)
+                            }).data}, status=status.HTTP_200_OK)
 
         except User.DoesNotExist:
             return Response({
-                                'error': 'User not found'
-                            }, status=status.HTTP_403_FORBIDDEN)
+                'error': 'User not found'
+            }, status=status.HTTP_403_FORBIDDEN)

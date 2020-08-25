@@ -46,7 +46,6 @@ class UserResource(Resource):
             return f"{e}", 500
 
 
-
 class UserDetailResource(Resource):
 
     def _get_user(self, id_user):
