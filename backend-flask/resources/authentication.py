@@ -4,14 +4,14 @@ from flask_restful import Resource
 from models.user import UserModel
 from os import environ
 from datetime import date, datetime
-
+from utils import *
 
 class AuthenticationResource(Resource):
 
     def post(self):
         data = request.get_json()
         email = data['email'].strip()
-        password = data['password']
+        password = encrypt(data['password'])
         user = UserModel.authenticate(email, password)
 
         if user:

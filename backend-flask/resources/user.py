@@ -3,7 +3,7 @@ from flask_jwt_simple import jwt_required, get_jwt
 from flask_restful import Resource
 from models.user import UserModel
 from datetime import date, datetime
-
+from utils import *
 
 class UserResource(Resource):
 
@@ -14,8 +14,8 @@ class UserResource(Resource):
             'id': user.id,
             'name': user.first_name,
             'email': user.email,
-            'active': user.active,
-            'password': user.password
+            'active': user.active
+            # 'password': user.password
         }, users))
 
     # @jwt_required
@@ -35,7 +35,7 @@ class UserResource(Resource):
                 model.last_name = item['last_name']
                 model.email = item['email']
                 model.active = item['active'] if 'active' in item else True
-                model.password = item['password']
+                model.password = encrypt(item['password'])
                 model.timestamp = date.today()
                 model.save()
 
@@ -86,7 +86,7 @@ class UserDetailResource(Resource):
                 if 'active' in item:
                     model.active = item['active'] if 'active' in item else True
                 if 'password' in item:
-                    model.password = item['password']
+                    model.password = encrypt(item['password'])
                 model.save()
 
                 return 'edited', 204
